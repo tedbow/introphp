@@ -6,7 +6,6 @@
  */
 
 
-
 function toHTMLString($input) {
   return $input;
 }

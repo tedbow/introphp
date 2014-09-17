@@ -21,5 +21,3 @@ foreach ($strings as $string) {
     echo "<br>'$string' does NOT contains 'fox'";
   }
 }
-
-echo "<br>" . (string)ASFD;

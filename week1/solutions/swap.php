@@ -15,9 +15,10 @@ $info = array(
   'my_name' => 'Ted Bowman',
   'num_dogs' => 1,
   'more_dog_num' => 2,
-  'dog_names' => array('Panda', 'Molly', 'Libby', 'Gracie'),
+  'dog_names' => array('Panda', 'Molly', 'Libby', 'Gracie', 'Spot'),
 );
 $name_parts = explode(' ', $info['my_name']);
+
 $first_name = $name_parts[0];
 $last_name = $name_parts[1];
 $first_letter = substr($first_name, 0,1);
@@ -26,18 +27,17 @@ $last_name_letters = strlen($last_name);
 $current_dog = $info['dog_names'][count($info['dog_names']) - 1];
 $total_dogs = $info['more_dog_num'] + $info['num_dogs'];
 $first_dog = $info['dog_names'][0];
-$dogs_except_last = array_splice($info['dog_names'], 0, count($info['dog_names']) - 1);
-var_dump($dogs_except_last);
+$all_dogs = $info['dog_names'];
+$dogs_except_last = array_splice($all_dogs, 0, count($info['dog_names']) - 1);
 $dogs_text = implode(', ', $dogs_except_last);
 $dogs_text .= ', and ' . $current_dog;
-var_dump($info['dog_names']);
 ?>
 <html>
 <head>
-  <title>About Ted Bowman</title>
+  <title>About <?php echo $info['my_name']; ?></title>
 </head>
 <body>
-<h1>Ted Bowman</h1>
+<h1><?php echo $info['my_name']; ?></h1>
 <p>Hi, my name is <?php echo $info['my_name']; ?>.  My first name is
 <?php echo $first_name; ?> and my last Name is
  <?php echo $last_name; ?>.</p>
@@ -53,7 +53,7 @@ var_dump($info['dog_names']);
   dog which would mean I would have <?php echo $total_dogs; ?> dogs.</p>
 <!-- you will need http://php.net/manual/en/function.array-splice.php -->
 <p>I have had
-  <?php echo count($info['dog_names']); ?>dogs in my life. There names have been <?php echo $dogs_text; ?></p>
+  <?php echo count($info['dog_names']); ?> dogs in my life. There names have been <?php echo $dogs_text; ?></p>
 <p>But I will always remember <?php echo $first_dog; ?>  my first dog.</p>
 </body>
 </html>
