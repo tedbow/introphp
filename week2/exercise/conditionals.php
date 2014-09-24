@@ -14,10 +14,11 @@ foreach ($strings as $string) {
   echo "<br><br>**Checking '$string':";
   $strpos = stripos($string, 'fox');
   // Fix these if statements to work with all strings.(don't change the function call above)
-  if ($strpos) {
+  // FIXED SOLUTION
+  if ($strpos !== FALSE) {
     echo "<br>'$string' contains 'fox'";
   }
-  if (!$strpos) {
+  if ($strpos === FALSE) {
     echo "<br>'$string' does NOT contains 'fox'";
   }
 }

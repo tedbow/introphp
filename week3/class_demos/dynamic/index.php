@@ -1,3 +1,10 @@
+<?php
+/**
+ * 1. Change to load main content from url: index.php?page=my-
+ *
+ */
+var_dump($_GET);
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -41,9 +48,29 @@
 
 			</header>
 
-			<section id="main">
-				<h1>Main section</h1><?php echo "asdfasdfasdfasdf" ?>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <section id="main">
+				<h1>Main section</h1>
+                <p>
+                <?php
+                var_dump($_GET);
+
+                $module_name = $_GET['module'];
+                $module_file_to_include = $module_name . '/module.php';
+                echo "from index.php";
+                if (file_exists($module_file_to_include)) {
+
+                  require $module_file_to_include;
+                }
+
+
+
+
+                //echo "<br>filetoinclude=$file_to_include";
+
+
+                ?>
+                </p>
+
 			</section>
 
 			<aside>

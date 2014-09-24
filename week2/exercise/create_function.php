@@ -5,14 +5,33 @@
  * Time: 11:48 AM
  */
 
-
+/*
+ * Solved version.
+ */
 function toHTMLString($input) {
+  $type = gettype($input);
+
+  switch ($type) {
+    case 'boolean':
+      $input = !empty($input) ? 'TRUE' : 'FALSE';
+      break;
+    case 'array':
+      $input = implode(',', $input);
+      break;
+    default:
+      return $input;
+  }
+  //echo "type=$type<br>";
+
   return $input;
 }
 $vars = array(
   FALSE,
+  TRUE,
   0,
   1,
+  '1',
+  1.1,
   array(),
   array('this','that','other'),
 );
