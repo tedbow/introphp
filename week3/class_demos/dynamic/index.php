@@ -3,7 +3,6 @@
  * 1. Change to load main content from url: index.php?page=my-
  *
  */
-var_dump($_GET);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,11 +51,12 @@ var_dump($_GET);
 				<h1>Main section</h1>
                 <p>
                 <?php
-                var_dump($_GET);
+                //var_dump($_GET);
 
                 $module_name = $_GET['module'];
                 $module_file_to_include = $module_name . '/module.php';
                 echo "from index.php";
+                // @todo Handle if module doesn't exist
                 if (file_exists($module_file_to_include)) {
 
                   require $module_file_to_include;
