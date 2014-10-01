@@ -7,6 +7,7 @@
 
 /**
  * Return HTML for form.
+ * @see forms/contact.inc
  * @param array $form_elements
  *  Array of form elements. Each form element will be passed to form_maker_create_form_element.
  *  @see form_maker_create_form_element().
@@ -32,6 +33,8 @@ function form_maker_create_form_element($element_info) {
  * @param array $element_info
  *  Info about 1 form element.
  *  Keys = '#type', '#title','#default_value'(optional)
+ * @return string
+ *  HTML output.
  */
 function form_maker_create_textfield($element_info) {
 
@@ -41,6 +44,8 @@ function form_maker_create_textfield($element_info) {
  * @param $element_info
  *  Info about 1 form element.
  *  Keys = '#type', '#title','#default_value'(optional)
+ * @return string
+ *  HTML output.
  */
 function form_maker_create_textarea($element_info) {
 

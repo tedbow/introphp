@@ -9,6 +9,7 @@
  * Don't worry now how it works
  *
  * @param $feed_url
+ *   RSS Feed url
  *
  * @return string
  *  HTML output of feed items.
@@ -38,4 +39,12 @@ function feeder_get_feed_output($feed_url) {
     $output .= '<p>'.$description.'</p>';
   }
   return $output;
+}
+function feeder_validate_url($url) {
+  $pos = strpos($url, 'http');
+  echo "<br>pos=$pos<br>";
+  if ($pos === 0) {
+    return TRUE;
+  }
+  return FALSE;
 }

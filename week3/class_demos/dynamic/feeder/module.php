@@ -14,4 +14,28 @@
  * 4. If URL call feeder_get_feed_output and output HTML.
  */
 require 'feeder.inc';
-echo feeder_get_feed_output($_GET['feed_url']);
+// Process form here.
+var_dump($_POST);
+  if (empty($_POST['submit']) || empty($_POST['feedurl'])) {
+  ?>
+  <form action="index.php?module=feeder" method="post">
+    Feed URL: <input type="text" name="feedurl" value="" /><br />
+    <input type="submit" name="submit" value="Submit" />
+  </form>
+  <?php
+  }
+  else {
+     $url =$_POST['feedurl'];
+     if (feeder_validate_url($url)) {
+       echo feeder_get_feed_output($url);
+     }
+     else {
+       echo ":(";
+     }
+
+  }
+
+?>
+
+<?php
+//
