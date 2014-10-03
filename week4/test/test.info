@@ -1,0 +1,6 @@
+name = hook_form_alter
+description = Just testing
+dependencies[] = devel
+package = Hook42
+core = 7.x
+files[] = test.module

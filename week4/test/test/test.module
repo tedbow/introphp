@@ -1,0 +1,164 @@
+<?php
+/**
+ * @file test.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function test_menu() {
+
+  // This is the minimum information you can provide for a menu item.
+  $items['test'] = array(
+    'title' => 'PHP Testing',
+    'page callback' => 'test_db_query',
+    'access arguments' => array('access content'),
+  );
+
+  // more complex menu item
+  $items['test/db_query'] = array(
+    'title' => 'db_query',
+    'page callback' => 'test_db_query',
+    'page arguments' => array(2), // An array of arguments to pass to the page callback function. Integer values pass the corresponding URL component.
+    //'access callback' => '', // defaults to user_access()
+    'access arguments' => array('access content'),
+    'weight' => 0,
+    'type' => MENU_DEFAULT_LOCAL_TASK, // One of MENU_NORMAL_ITEM / MENU_CALLBACK / MENU_SUGGESTED_ITEM / MENU_LOCAL_TASK / MENU_DEFAULT_LOCAL_TASK
+  );
+  // OPTIONAL: Fill in additional static menu items
+
+  // more complex menu item
+  $items['test/db_select'] = array(
+    'title' => 'db_select',
+    'page callback' => 'test_db_select',
+    'page arguments' => array(2), // An array of arguments to pass to the page callback function. Integer values pass the corresponding URL component.
+    //'access callback' => '', // defaults to user_access()
+    'access arguments' => array('access content'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK, // One of MENU_NORMAL_ITEM / MENU_CALLBACK / MENU_SUGGESTED_ITEM / MENU_LOCAL_TASK / MENU_DEFAULT_LOCAL_TASK
+  );
+
+  // more complex menu item
+  $items['test/form_selector'] = array(
+    'title' => 'form_selector',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('test_form_selector', 2), // An array of arguments to pass to the page callback function. Integer values pass the corresponding URL component.
+    //'access callback' => '', // defaults to user_access()
+    'access arguments' => array('access content'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK, // One of MENU_NORMAL_ITEM / MENU_CALLBACK / MENU_SUGGESTED_ITEM / MENU_LOCAL_TASK / MENU_DEFAULT_LOCAL_TASK
+  );
+  // more complex menu item
+  $items['test/node_viewer'] = array(
+    'title' => 'Node Viewer',
+    'page callback' => 'test_node_viewer',
+    'page arguments' => array( 2), // An array of arguments to pass to the page callback function. Integer values pass the corresponding URL component.
+    //'access callback' => '', // defaults to user_access()
+    'access arguments' => array('access content'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK, // One of MENU_NORMAL_ITEM / MENU_CALLBACK / MENU_SUGGESTED_ITEM / MENU_LOCAL_TASK / MENU_DEFAULT_LOCAL_TASK
+  );
+
+  $items['test/node_debugger'] = array(
+    'title' => 'Node Viewer',
+    'page callback' => 'test_node_other_function',
+    'page arguments' => array( 2), // An array of arguments to pass to the page callback function. Integer values pass the corresponding URL component.
+    //'access callback' => '', // defaults to user_access()
+    'access arguments' => array('access content'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK, // One of MENU_NORMAL_ITEM / MENU_CALLBACK / MENU_SUGGESTED_ITEM / MENU_LOCAL_TASK / MENU_DEFAULT_LOCAL_TASK
+  );
+  return $items;
+}
+function test_db_query($nid = NULL) {
+  $args = array();
+  $sql = 'SELECT * FROM {node}';
+   $sql .= ' WHERE type = \'article\'';
+  if ($nid) {
+    $sql .= ' AND nid = :nid';
+    $args = array(':nid' => $nid);
+  }
+  dpm($args, $sql);
+  $results = db_query($sql,$args);
+  $output = '';
+
+  foreach ($results as $row) {
+    $output .= "<p>" . $row->title  . "</p>";
+  }
+  //if () {
+  if (empty($output)) {
+    return 'No results :(';
+  }
+  return $output;
+}
+function node_form_submit() {
+
+}
+function test_db_select($type = NULL) {
+  $titles = _test_get_node_titles($type);
+  return implode(', ', $titles);
+}
+function _test_get_node_titles($type = NULL) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid', 'title'));
+  if ($type) {
+    $query->condition('type', $type);
+  }
+  $results = $query->execute()->fetchAllKeyed();
+  dpm($results, 'results');
+  return $results;
+
+}
+function test_form_selector($form, &$form_state, $type) {
+  $form['nid'] = array(
+    '#type' => 'select',
+    '#title' => t('Select the node'),
+    '#options' => _test_get_node_titles($type),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+function test_form_selector_submit($form, &$form_state) {
+  $values = $form_state['values'];
+  if ($values['nid']) {
+    drupal_goto('test/node_viewer/' . $values['nid']);
+  }
+}
+function test_node_viewer($nid) {
+  if ($nid) {
+    $node = node_load($nid);
+    $output = node_view($node);
+    dpm($node,'node');
+    return $output;
+  }
+  return t('No node :(.');
+
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function test_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form_id);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function test_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  dpm($form, $form_id);
+  global $user;
+  $roles = $user->roles;
+  dpm($roles, 'roles');
+  // Add a key/value to the form array
+  $form['account']['roles']['#description'] = t('Be careful with roles. The have security implications.');
+
+  // Alter an existing value.
+  // Don't allow the user to delete their image.
+  $form['picture']['picture_delete']['#access'] = FALSE;
+}
