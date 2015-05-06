@@ -2,7 +2,7 @@
 /**
  * Author: Ted Bowman
  * Date: 9/17/14
- * Time: 12:09 PM
+ * Time: 12:09 PM (EDT)
  */
 
 $paragraph = "It is known that there are an infinite number of worlds, simply because there is an infinite amount of space for them to be in. However, not every one of them is inhabited. Therefore, there must be a finite number of inhabited worlds. Any finite number divided by infinity is as near to nothing as makes no odds, so the average population of all the planets in the Universe can be said to be zero. From this it follows that the population of the whole Universe is also zero, and that any people you may meet from time to time are merely the products of a deranged imagination.";
